@@ -1,14 +1,22 @@
+import sys 
 import pandas as pd
 import analyze_mosquito_data_lib as mosquito_lib
 
-filename = "A1_mosquito_data.csv"
+filename = sys.argv[1]
+
+print "Analyzing", filename
 
 #read data
 data = pd.read_csv(filename)
 
 data["temperature"] = mosquito_lib.fahr_to_celsius(data["temperature"])
 
-parameters = mosquito_lib.analyze(data,figure_filename = "plot.png")
+print "Running analyze"
+
+parameters = mosquito_lib.analyze(data,filename.replace("csv", "png"))
+
+
+print "Saving parameters"
 
 # save parameters to file
-parameters.to_csv ("parameters.csv")
+parameters.to_csv (filename.replace("data", "parameters"))
